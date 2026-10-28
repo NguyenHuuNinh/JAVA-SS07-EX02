@@ -5,7 +5,6 @@ import com.example.recruitpro.entity.Candidate;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -16,14 +15,13 @@ public class CandidateController {
     private int currentId = 1;
 
     @PostMapping
-    public ResponseEntity<?> createCandidate(@Valid @RequestBody CandidateCreateDTO candidateDTO, BindingResult bindingResult) {
+    public ResponseEntity<?> createCandidate(@Valid @RequestBody CandidateCreateDTO candidateDTO) {
 
-        // Trả về lỗi 400 nếu dữ liệu vi phạm các quy tắc trong DTO
-        if (bindingResult.hasErrors()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Dữ liệu không hợp lệ : ");
-        }
+        // Đoạn code kiểm tra lỗi (BindingResult) đã được xóa bỏ hoàn toàn.
+        // Nếu có lỗi validation, Spring Boot sẽ tự động ném ra Exception
+        // và file GlobalExceptionHandler của bạn sẽ tự động bắt lấy nó.
 
-        // Tạo ứng viên mới nếu dữ liệu chuẩn
+        // Khởi tạo và lưu thông tin ứng viên mới nếu dữ liệu hợp lệ
         Candidate newCandidate = new Candidate();
         newCandidate.setId(currentId++);
         newCandidate.setFullName(candidateDTO.getFullName());
